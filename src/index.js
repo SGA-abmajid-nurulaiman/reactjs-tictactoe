@@ -77,6 +77,15 @@ class Board extends React.Component {
   
 
 class Game extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            history: [{
+                squares: Array.fill(null),
+            }],
+            xIsNext: true,
+        };
+    }
     render() {
       return (
         <div className="game">
