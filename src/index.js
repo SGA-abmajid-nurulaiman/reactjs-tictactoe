@@ -22,11 +22,17 @@ class Board extends React.Component {
 
     handleClick(i) {
         const squares = this.state.squares.slice();
-        squares[i] = this.state.xIsNext ? 'X' : 'O';
+        if(calculateWinner(squares)){
+            alert('Game already ended.')
+        } else if(squares[i]){
+            alert('Square already marked. Pls choose another one.')
+        } else{
+            squares[i] = this.state.xIsNext ? 'X' : 'O';
         this.setState({
             squares: squares,
             xIsNext: !this.state.xIsNext,
         });
+        }
     }
 
     renderSquare(i) {
