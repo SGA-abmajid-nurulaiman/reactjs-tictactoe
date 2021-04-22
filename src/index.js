@@ -20,7 +20,7 @@ function HeaderRow(props) {
 
 function Square(props) {
     return (
-        <button className="square" onClick={props.onClick}>
+        <button className={props.winning ? 'square square-win' : 'square'} onClick={props.onClick}>
           {props.value}
         </button>
       );
@@ -29,8 +29,9 @@ function Square(props) {
   
 class Board extends React.Component {
     renderSquare(i) {
+      const isWinningSquare = this.props.winningLine == null ? false : this.props.winningLine.includes(i) ? true : false;
       return (
-        <Square value={this.props.squares[i]} 
+        <Square value={this.props.squares[i]} winning={isWinningSquare}
             onClick={() => this.props.onClick(i)}/>
             );
     }
@@ -73,7 +74,10 @@ class Game extends React.Component {
         const history = this.state.history.slice(0, this.state.stepNumber + 1);
         const current = history[history.length - 1];
         const squares = current.squares.slice();
-        if(calculateWinner(squares)){
+        const winObj = calculateWinner(squares);
+        const winLine = winObj == null ? Array(3).fill(null) : winObj.winningLine;
+
+        if(winObj){
             alert('Game already ended.')
         } else if(squares[i]){
             alert('Square already marked. Pls choose another one.')
@@ -86,6 +90,7 @@ class Game extends React.Component {
             }]),            
             xIsNext: !this.state.xIsNext,
             stepNumber: history.length,
+            winningLine: winLine,
         });
         }
     }
@@ -105,12 +110,15 @@ class Game extends React.Component {
             }],
             xIsNext: true,
             stepNumber: 0,
+            winningLine: Array(3).fill(null),
         };
     }
     render() {
         const history = this.state.history;
         const current = history[this.state.stepNumber];
-        const winner = calculateWinner(current.squares);
+        const winObj = calculateWinner(current.squares);
+        const winner = winObj == null ? null : winObj.winner;
+        const winLine = winObj == null ? Array(3).fill(null) : winObj.winningLine;
 
         const moves = history.map((step, move) => {
             const histCoord = history[move].coord;
@@ -138,7 +146,9 @@ class Game extends React.Component {
             <div className="game-board">
                 <Board
                  squares={current.squares}
-                 onClick={(i) => this.handleClick(i)}/>
+                 onClick={(i) => this.handleClick(i)}
+                 winningLine = {winLine}
+                 />
             </div>
             <div className="game-info">
                 <div>{status}</div>
@@ -164,7 +174,10 @@ class Game extends React.Component {
     for (let i = 0; i < lines.length; i++) {
       const [a, b, c] = lines[i];
       if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-        return squares[a];
+        return {
+          winner: squares[a],
+          winningLine : lines[i],
+        };
       }
     }
     return null;

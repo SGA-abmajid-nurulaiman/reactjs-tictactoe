@@ -33,6 +33,10 @@ ul {
     width: 34px;
 }
 
+.square-win {
+    background: rgb(0, 255, 136);
+}
+
 .header {
     background: rgb(0, 149, 207);
     float: left;
