@@ -2,6 +2,22 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
+function HeaderCol(props) {
+  return (
+    <div className="header header-col">
+        {props.value}
+    </div>
+  );
+}
+
+function HeaderRow(props) {
+  return (
+    <div className="header header-row">
+        {props.value}
+    </div>
+  );
+}
+
 function Square(props) {
     return (
         <button className="square" onClick={props.onClick}>
@@ -23,16 +39,25 @@ class Board extends React.Component {
       return (
         <div>
           <div className="board-row">
+            <div className="header header-empty"/>
+            <HeaderCol value="1"/>
+            <HeaderCol value="2"/>
+            <HeaderCol value="3"/>
+          </div>
+          <div className="board-row">
+            <HeaderRow value="1"/>
             {this.renderSquare(0)}
             {this.renderSquare(1)}
             {this.renderSquare(2)}
           </div>
           <div className="board-row">
+            <HeaderRow value="2"/>
             {this.renderSquare(3)}
             {this.renderSquare(4)}
             {this.renderSquare(5)}
           </div>
           <div className="board-row">
+            <HeaderRow value="3"/>
             {this.renderSquare(6)}
             {this.renderSquare(7)}
             {this.renderSquare(8)}

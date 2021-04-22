@@ -33,6 +33,31 @@ ul {
     width: 34px;
 }
 
+.header {
+    background: rgb(0, 149, 207);
+    float: left;
+    font-size: 12px;
+    padding: 0;
+    text-align: center;
+}
+
+.header-col {
+    width: 33.3px;
+    height: 17px;
+    float: left;
+}
+
+.header-row {
+    height: 33.3px;
+    width: 17px;
+}
+
+.header-empty {
+    height: 17px;
+    width: 17.4px;
+    background: rgb(255, 255, 255);
+}
+
 .square:focus {
     outline: none;
 }
